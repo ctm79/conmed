@@ -25,6 +25,7 @@ public class ServletController extends HttpServlet {
         List<Paciente> pacientes = new PacienteDao().Listar();
         System.out.println("pacientes = " + pacientes);
         request.setAttribute("pacientes", pacientes);
+        request.setAttribute("totalPacientes", pacientes.size());
         request.getRequestDispatcher("pacientes.jsp").forward(request,response);
         
     }

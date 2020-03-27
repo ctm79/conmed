@@ -22,8 +22,8 @@ import java.util.logging.Logger;
  */
 public class PacienteDao {
 
-    private static final String SQL_SELECT = "SELECT * FROM PACIENTES";
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM PACIENTES WHERE id_cliente = ?";
+    private static final String SQL_SELECT = "SELECT * FROM PACIENTES ORDER BY id_paciente";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM PACIENTES WHERE id_paciente = ?";
     private static final String SQL_INSERT = "INSERT INTO PACIENTES VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     public List<Paciente> Listar() {
@@ -74,6 +74,55 @@ public class PacienteDao {
         }
 
         return pacientes;
+
+    }
+    
+    public Paciente Buscar(Paciente paciente) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_SELECT_BY_ID);
+            stmt.setInt(1, paciente.getId_paciente());
+            rs = stmt.executeQuery();
+            
+
+            rs.absolute(1); // vamos al primer registro
+            String nombre = rs.getString("nombre");
+            String apellidos = rs.getString("apellidos");
+            String ocupacion = rs.getString("ocupacion");
+            String direccion = rs.getString("direccion");
+            String cod_postal = rs.getString("cod_postal");
+            String poblacion = rs.getString("poblacion");
+            String provincia = rs.getString("provincia");
+            String pais = rs.getString("pais");
+            String tlf1 = rs.getString("tlf1");
+            String tlf2 = rs.getString("tlf2");
+            String email = rs.getString("email");
+            String web = rs.getString("web");
+            String estado_civil = rs.getString("estado_civil");
+            String fecha_nacimiento = rs.getString("fecha_nacimiento");
+            String lugar_nacimiento = rs.getString("lugar_nacimiento");
+            String n_hijos = rs.getString("n_hijos");
+            String fecha_alta = rs.getString("fecha_alta");
+            String recomendado_por = rs.getString("recomendado_por");
+            String motivo_consulta = rs.getString("motivo_consulta");
+
+            
+
+            
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
+            printStackTrace();
+        } finally {
+            DBConnection.close(rs);
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+
+        return paciente;
 
     }
 
