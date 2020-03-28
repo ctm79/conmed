@@ -5,7 +5,6 @@
  */
 package data;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import domain.Paciente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,9 +21,10 @@ import java.util.logging.Logger;
  */
 public class PacienteDao {
 
-    private static final String SQL_SELECT = "SELECT * FROM PACIENTES ORDER BY id_paciente";
+    private static final String SQL_SELECT = "SELECT * FROM PACIENTES where id_paciente ORDER BY id_paciente";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM PACIENTES WHERE id_paciente = ?";
-    private static final String SQL_INSERT = "INSERT INTO PACIENTES VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT = "INSERT INTO PACIENTES (nombre,apellidos) VALUES(?,?)";
+    private static final String SQL_UPDATE = "UPDATE cliente SET nombre=?, apellidos=? WHERE id_paciente=?";
 
     public List<Paciente> Listar() {
         Connection conn = null;
@@ -66,7 +66,7 @@ public class PacienteDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
-            printStackTrace();
+            
         } finally {
             DBConnection.close(rs);
             DBConnection.close(stmt);
@@ -115,7 +115,7 @@ public class PacienteDao {
 
         } catch (SQLException ex) {
             Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
-            printStackTrace();
+            
         } finally {
             DBConnection.close(rs);
             DBConnection.close(stmt);
@@ -123,6 +123,76 @@ public class PacienteDao {
         }
 
         return paciente;
+
+    }
+    
+    public int Insertar(Paciente paciente) {
+        int registros = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setString(1, paciente.getNombre());
+            stmt.setString(2, paciente.getApellidos());
+            registros = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } finally {
+            
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+
+        return registros;
+
+    }
+    
+    public int Modificar(Paciente paciente) {
+        int registros = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_UPDATE);
+            stmt.setString(1, paciente.getNombre());
+            stmt.setString(2, paciente.getApellidos());
+            stmt.setInt(3, paciente.getId_paciente());
+            registros = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } finally {
+            
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+
+        return registros;
+
+    }
+    
+     public int Eliminar(int id) {
+        int registros = 0;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = DBConnection.getConnection();
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setInt(1, id);
+            registros = stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDao.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } finally {
+            
+            DBConnection.close(stmt);
+            DBConnection.close(conn);
+        }
+
+        return registros;
 
     }
 
