@@ -23,9 +23,9 @@ import org.mariadb.jdbc.MariaDbDataSource;
  */
 public class DBConnection {
     private static final Logger LOG = Logger.getLogger(DBConnection.class.getName());
-    private static final String JDBC_URL = "jdbc:mariadb://localhost:3306/conmed?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-    //private static final String JDBC_URL = "jdbc:mariadb://127.0.0.1:3306/conmed?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-    //private static final String JDBC_URL = "jdbc:mariadb://127.0.0.1:3306/conmed";
+    private static final String JDBC_URL = "jdbc:mariadb://192.168.1.185:3306/conmed?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    //private static final String JDBC_URL = "jdbc:mariadb://192.168.1.185:3306/conmed?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+    //private static final String JDBC_URL = "jdbc:mariadb://192.168.1.185:3306/conmed";
     private static final String JDBC_USER = "conmed";
     private static final String JDBC_PASSWORD = "conmed";
 
