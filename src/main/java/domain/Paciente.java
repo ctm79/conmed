@@ -44,6 +44,12 @@ public class Paciente {
         this.apellidos = apellidos;
     }
     
+    public Paciente(int id_paciente, String nombre, String apellidos) {
+        this.id_paciente = id_paciente;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+    
     
 
     public Paciente(String nombre, String apellidos, String ocupacion, String direccion, String cod_postal, String poblacion, String provincia, String pais, String tlf1, String tlf2, String email, String web, String estado_civil, String fecha_nacimiento, String lugar_nacimiento, String n_hijos, String fecha_alta, String recomendado_por, String motivo_consulta) {

@@ -28,6 +28,9 @@ public class ServletController extends HttpServlet {
                 case "editar":
                     this.editarPaciente(request, response);
                     break;
+                case "eliminar":
+                    this.eliminarPaciente(request, response);
+                    break;
                 default:
                     this.actionDefault(request, response);
             }
@@ -54,6 +57,10 @@ public class ServletController extends HttpServlet {
             switch (accion) {
                 case "insertar":
                     this.insertarPaciente(request, response);
+                    break;
+                    
+                case "modificar":
+                    this.modificarPaciente(request, response);
                     break;
                 
                 default:
@@ -87,6 +94,37 @@ public class ServletController extends HttpServlet {
         request.setAttribute("paciente", paciente);
         String jspEditar = "/WEB-INF/pages/paciente/editarPaciente.jsp";
         request.getRequestDispatcher(jspEditar).forward(request, response);  
+    }
+    
+    private void modificarPaciente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // recuperamos los valores del form agregar paciente
+        int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
+        String nombre = request.getParameter("nombre");
+        String apellidos = request.getParameter("apellidos");
+        
+        // creamos el paciente(modelo)
+        Paciente paciente = new Paciente(idPaciente, nombre, apellidos);
+        
+        // insertamos en la bd
+        int registros = new PacienteDao().Modificar(paciente);
+        
+        //Redirigimos hacia accion por default
+        this.actionDefault(request, response);
+    }
+    
+    private void eliminarPaciente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // recuperamos los valores del form agregar paciente
+        int idPaciente = Integer.parseInt(request.getParameter("idPaciente"));
+        
+        
+        // creamos el paciente(modelo)
+        Paciente paciente = new Paciente(idPaciente);
+        
+        // insertamos en la bd
+        int registros = new PacienteDao().Eliminar(paciente);
+        
+        //Redirigimos hacia accion por default
+        this.actionDefault(request, response);
     }
 
 }

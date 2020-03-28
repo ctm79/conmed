@@ -24,7 +24,8 @@ public class PacienteDao {
     private static final String SQL_SELECT = "SELECT * FROM PACIENTES where id_paciente ORDER BY id_paciente";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM PACIENTES WHERE id_paciente = ?";
     private static final String SQL_INSERT = "INSERT INTO PACIENTES (nombre,apellidos) VALUES(?,?)";
-    private static final String SQL_UPDATE = "UPDATE cliente SET nombre=?, apellidos=? WHERE id_paciente=?";
+    private static final String SQL_UPDATE = "UPDATE PACIENTES SET nombre=?, apellidos=? WHERE id_paciente=?";
+    private static final String SQL_DELETE = "DELETE FROM PACIENTES WHERE id_paciente=?";
 
     public List<Paciente> Listar() {
         Connection conn = null;
@@ -109,6 +110,9 @@ public class PacienteDao {
             String recomendado_por = rs.getString("recomendado_por");
             String motivo_consulta = rs.getString("motivo_consulta");
 
+            paciente.setNombre(nombre);
+            paciente.setApellidos(apellidos);
+            paciente.setOcupacion(ocupacion);
             
 
             
@@ -173,14 +177,14 @@ public class PacienteDao {
 
     }
     
-     public int Eliminar(int id) {
+     public int Eliminar(Paciente paciente) {
         int registros = 0;
         Connection conn = null;
         PreparedStatement stmt = null;
         try {
             conn = DBConnection.getConnection();
-            stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setInt(1, id);
+            stmt = conn.prepareStatement(SQL_DELETE);
+            stmt.setInt(1, paciente.getId_paciente());
             registros = stmt.executeUpdate();
             
         } catch (SQLException ex) {
